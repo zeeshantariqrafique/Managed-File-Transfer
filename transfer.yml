@@ -1,0 +1,12 @@
+socketserver:
+  listenport: 9999
+
+transfer:
+  destinationhost: localhost
+  destinationport: 9999
+  destinationfolder: "D://destination//"
+  sourcefilename: "data.txt"
+  sourcefilepath: "D://file"
+  sourcefilepattern: NA
+  realtimeflag: "Y"
+
