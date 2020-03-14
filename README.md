@@ -10,3 +10,4 @@ Capabilities that are to be built :
 Goal :
 - Match the file transfer speed of Apache Kafka at much lighter weight for small scale applications and provide real time stream processing. 
 - 20x faster than ftp and sftp protocol.
+- Avoid username/password authentication like stfp , Plug and Play peer to peer security feature on initial setup .
