@@ -15,10 +15,29 @@ class socketServer(socketserver.BaseRequestHandler):
         try:
             self.data = self.request.recv(1024).strip()
             print("{} wrote:".format(self.client_address[0]))
-            print(self.data)
+            #decode() was required to make b'xyz -> xyz
+            recvStr = str(self.data.decode('utf-8'))
+            #If the first 8 chars are "FILE_KEY" then this is a valid request
+            if recvStr[:8] == "FILE_KEY":
+                #Only pass destination path | file data to createFile function
+                self.createFile(recvStr[9:])
+            else:
+                raise ValueError('Not supported request')         
+
             self.request.sendall(self.data.upper())
-        except socketserver.Error as err:
-            print("Error while handling : {}".format(err))
+        except ValueError as err:
+            print("Value Error while handling request: {}".format(err))
+        except Exception as e:
+            print("Error while handling {}".format(e))
+
+    #This function creates the file on the path recived by the socket server
+    def createFile(self,recvStr):
+        x = recvStr.split('|')
+        dest_file_path = x[0]
+        f = open(dest_file_path,'w+')
+        f.write(x[1])
+        f.close()
+
 
 if __name__ == "__main__":
     HOST, PORT = "localhost", 9999
