@@ -34,3 +34,5 @@ class SocketClient:
             except socket.error as err:
                 print("Error while sending data")
 
+    def close(self):
+        self.socketClient.close()

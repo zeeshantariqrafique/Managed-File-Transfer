@@ -17,6 +17,8 @@ class ConfigPyFiTransfer:
     source_file_pattern = None
     real_time_flag = None
 
+    #This function popualates the calling object with the configuration present in transfer.yml
+    #TODO : avoid hard coding file name 
     def getPyFiTransferConfig(self):
     
         with open(r'transfer.yml') as file:
