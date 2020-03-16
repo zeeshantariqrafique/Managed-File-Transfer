@@ -14,6 +14,7 @@ class SocketClient:
         except socket.error as err:
             print("creation of socket failed due to : {}".format(err))
 
+    #Create socket connection on the host and port passed as parameters 
     def connect(self,host,port):
         try:
             self.socketClient.connect((host,port))
@@ -22,6 +23,8 @@ class SocketClient:
         except socket.error as err:
             print("Error while connecting to host {} and port {} with : {}".format(host,port,err))
 
+    #Transfer the data recived as bytes in parameter 
+    #Note: It is compulsory to connect() of this class before using this function to transfer over this connection
     def transfer(self,data):
         if not self.connected:
             print("Not Conncted to any host")
