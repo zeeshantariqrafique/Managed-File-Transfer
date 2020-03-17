@@ -20,8 +20,10 @@ class SocketClient:
             self.socketClient.connect((host,port))
             self.connected = True
             print ("Connected to {} through port {} ".format(host,port))
+            return True
         except socket.error as err:
             print("Error while connecting to host {} and port {} with : {}".format(host,port,err))
+            return False
 
     #Transfer the data recived as bytes in parameter 
     #Note: It is compulsory to connect() of this class before using this function to transfer over this connection
