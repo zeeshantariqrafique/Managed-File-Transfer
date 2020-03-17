@@ -32,11 +32,17 @@ class socketServer(socketserver.BaseRequestHandler):
 
     #This function creates the file on the path recived by the socket server
     def createFile(self,recvStr):
-        x = recvStr.split('|')
-        dest_file_path = x[0]
-        f = open(dest_file_path,'w+')
-        f.write(x[1])
-        f.close()
+        try:
+            x = recvStr.split('|')
+            f = open(x[0],'w+')
+            f.write(x[1])
+            return True
+        except Exception as e:
+            print(e)
+            return False
+        finally:
+            f.close()
+
 
 
 if __name__ == "__main__":
