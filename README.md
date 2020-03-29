@@ -1,5 +1,9 @@
 # PyFiTransfer
-A python utility to transfer files through socket
+A python utility to transfer files through socket . 
+
+Question : Why socket when we have ftp/sftp ? 
+Answer : Socket will not need user/pass for authorization which will remove credential maintainence from your file transfer utilities 
+PLus , TCP ports are faster than FTP/SFTP ports so you can get your data to move swiftly between servers with much higher throughput.
 
 The intention of this project is to enable real time and platform independant managed file transfer between servers .
 
