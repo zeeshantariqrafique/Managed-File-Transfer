@@ -30,18 +30,17 @@ if __name__ == "__main__":
         pft = PyFiTransfer()
         sock = SocketClient()
         configObj.getPyFiTransferConfig()
-        fq_src_filename = os.path.join(configObj.source_file_path,configObj.source_file_name)
-        fq_dest_filename = os.path.join(configObj.destination_folder,configObj.source_file_name)
+        fq_src_filename = os.path.join(configObj.sourcefilepath,configObj.sourcefilename)
+        fq_dest_filename = os.path.join(configObj.destinationfolder,configObj.sourcefilename)
         srcfile = open(fq_src_filename,"r")
         data_to_send = pft.createFileTransferCommand(fq_dest_filename,srcfile.read())
-        sock.connect(configObj.destination_host,configObj.destination_port)
+        sock.connect(configObj.destinationhost,configObj.destinationport)
         sock.transfer(data_to_send)
     except Exception as e:
         print(e)
         
     finally:
         sock.close()
-        srcfile.close()
 
 
 
