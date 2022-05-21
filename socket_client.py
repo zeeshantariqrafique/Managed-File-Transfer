@@ -34,7 +34,7 @@ class SocketClient:
             try:
                 self.socketClient.send(data)
             except socket.error as err:
-                print("Error while sending data")
+                print(f"Error : {err}")
 
     def close(self):
         self.socketClient.close()
