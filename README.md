@@ -4,8 +4,11 @@ A python utility to transfer files through plain old socket .
 ## Usage 
 
 To quickly start test the application from the project directory 
+
 1 : Alter the source and destination details in transfer.yml 
+
 2 : At the Destination Server , Start the socker server through command : sh scripts/start_file_reciever.sh
+
 3 : At the Source Server , Run the socket client through the command , sh scripts/send_file.sh ../transfer.yml 
 
 ## Did not work ?
