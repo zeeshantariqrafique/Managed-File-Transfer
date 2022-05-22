@@ -3,7 +3,7 @@ A python utility to transfer files through plain old socket .
 
 ## Usage 
 
-To quickly start test the application from the project directory 
+To quickly test the application from the project directory 
 
 1 : Alter the source and destination details in transfer.yml 
 
