@@ -16,15 +16,15 @@ If your source and destination servers are seperate machines (Ideally , It shoul
 Then check the following 
 
 1 : Network connection between both machines , from the source machine run the command : 
-telnet <dest_ip_address> <port> 
+telnet <dest_ip_address> 9999 
 (Before this please ensure to run the command on destination machine : sh scripts/start_file_reciever.sh )
 
-2 : Check if destination port 9999 is free , else please checge the port in the config (transfer.xml) and try again
+2 : Check if destination port 9999 is free , else please change the port in the config (transfer.yml) and try again
 
 ## Question : Why socket when we have ftp/sftp ?
 
 Answer : Socket will not need user/pass for authorization which will remove credential maintainence from your file transfer utilities 
-PLus , TCP ports are faster than FTP/SFTP ports so you can get your data to move swiftly between servers with much higher throughput.
+Plus , TCP ports are faster than FTP/SFTP ports so you can get your data to move swiftly between servers with much higher throughput.
 
 The intention of this project is to enable real time and platform independant managed file transfer between servers .
 
