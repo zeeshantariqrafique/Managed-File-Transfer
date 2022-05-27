@@ -21,29 +21,29 @@ class socketServer(socketserver.BaseRequestHandler):
             print(
                 f'Recieved request from IP address {self.client_address[0]} ')
             # decode() was required to make b'xyz -> xyz
-            recvStr = str(self.data.decode('utf-8'))
+            recv_str = str(self.data.decode('utf-8'))
             # If the first 8 chars are "FILE_KEY" then this is a valid request
-            request_array = recvStr.split('|')
+            request_array = recv_str.split('|')
             if request_array[0] == "FILE_KEY":
-                # Only pass destination path | file data to createFile function
-                self.createFile(request_array[1], request_array[2])
+                # Only pass destination path | file data to create_file function
+                self.create_file(request_array[1], request_array[2])
             else:
                 raise ValueError('Not supported request')
 
             self.request.sendall(self.data.upper())
-        except ValueError as err:
+        except ValueError:
             traceback.print_exc()
-        except Exception as e:
+        except Exception:
             traceback.print_exc()
 
-    def createFile(self, file_full_name, file_data_in_bytes):
+    def create_file(self, file_full_name, file_data_in_bytes):
         '''This function creates the file on the path recived by the socket server'''
         try:
             f = open(file_full_name, 'w+')
             f.write(file_data_in_bytes)
             print(f'Successfully wrote to destination path {file_full_name}')
             return True
-        except Exception as e:
+        except Exception:
             traceback.print_exc()
             return False
         finally:

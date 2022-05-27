@@ -40,7 +40,7 @@ class SocketClient:
         else:
             try:
                 self.socketClient.send(data)
-            except socket.error as err:
+            except socket.error:
                 traceback.print_exc()
 
     def close(self):
