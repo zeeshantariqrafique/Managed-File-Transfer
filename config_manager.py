@@ -14,7 +14,7 @@ class ConfigManager:
         Read the given file_path and return a key-value dictionary with all
         key values from config 
         '''
-        with open(file_path) as file:
+        with open(file_path,encoding='utf-8') as file:
             data = yaml.full_load(file)
         config_dict = { **data['socketserver'] , **data['transfer'] }
-        return { k : v for k ,v in  config_dict.items() }
+        return dict(config_dict.items())

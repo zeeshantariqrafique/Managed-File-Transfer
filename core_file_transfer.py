@@ -26,7 +26,7 @@ def main():
         config = ConfigManager().get_config(config_file_path)
         src_filename = os.path.join(config['sourcefilepath'],config['sourcefilename'])
         dest_filename = os.path.join(config['destinationfolder'],config['sourcefilename'])
-        srcfile = open(src_filename,"r")
+        srcfile = open(src_filename,encoding='utf-8',mode="r")
         data_to_send = python_file_transfer.create_transfer_command(dest_filename,srcfile.read())
         sock.connect(config['destinationhost'],config['destinationport'])
         sock.transfer(data_to_send)
