@@ -5,26 +5,19 @@ import sys
 
 class PythonFileTransfer:
     
-    #Function to convert fully qualified file path into byte array (Socket transfer needs bytes)
-    def getBytesfromFile(self,filename):
-        try:
-            fh = open(filename, 'rb')
-            ba = bytearray(fh.read())
-            return ba
-        finally:
-            fh.close()
-
-    #TODO : Logic -> Sendcommand|DESTINATION_FILE_PATH|DESTINATION_FILE_NAME|DATA_OF_FILE_IN_BYTES
-    #Example : FILE_KEY|/home/test/dest/path|thefileToBetransferred.txt|Thedatawithinthefileasbytes
     def create_transfer_command(self,destinationFullyQualifiedFileName,fileData):
+        '''creates a single socket command including metadata 
+        and actual file data to be transferred to destination 
+        remote host in bytes over tcp sockets'''
+
         cmd = "FILE_KEY|"+destinationFullyQualifiedFileName+"|"+fileData
         return bytearray(cmd,'utf8')
 
-# Correctly very naive approach will be changed later 
-# populate the config object with the configuration in file transfer.yml (Look at configReader.py)
-# From the config , get the source file path and file details and use the cofig destination details to transfer 
-# file via socket 
+ 
 def main():
+    ''' main business function to read config (transfer.yml) and 
+        send the file to remote host using tcp socket'''
+
     try:
         config_file_path = sys.argv[1]
         python_file_transfer = PythonFileTransfer()
@@ -40,6 +33,7 @@ def main():
         print(e)
     finally:
         sock.close()
+
 
 if __name__ == "__main__":
     main()

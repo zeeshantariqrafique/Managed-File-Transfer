@@ -8,14 +8,15 @@ import socket
 class SocketClient:
     connected = False
     def __init__(self):
+        '''default constructor'''
         try:
             self.socketClient = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-            print("Socket is created ")
+            print("Socket client instance created ")
         except socket.error as err:
             print("creation of socket failed due to : {}".format(err))
 
-    #Create socket connection on the host and port passed as parameters 
     def connect(self,host,port):
+        '''connect using tcp socket to the given host and port'''
         try:
             self.socketClient.connect((host,port))
             self.connected = True
@@ -25,9 +26,8 @@ class SocketClient:
             print("Error while connecting to host {} and port {} with : {}".format(host,port,err))
             return False
 
-    #Transfer the data recived as bytes in parameter 
-    #Note: It is compulsory to connect() of this class before using this function to transfer over this connection
     def transfer(self,data):
+        '''Sends the byte array (data) over socket to connected server'''
         if not self.connected:
             print("Not Conncted to any host")
         else:
@@ -37,4 +37,5 @@ class SocketClient:
                 print(f"Error : {err}")
 
     def close(self):
+        '''closes the tcp socket with the remote host'''
         self.socketClient.close()
