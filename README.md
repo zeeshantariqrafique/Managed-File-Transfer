@@ -1,3 +1,5 @@
+![master](https://github.com/zeeshantariqrafique/Managed-File-Transfer/actions/workflows/managed-file-transfer.yml/badge.svg?event=push)
+
 # Managed Light Weight File Transfer
 A python utility to transfer files through plain old socket . 
 
