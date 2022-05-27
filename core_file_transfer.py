@@ -2,6 +2,7 @@ import os
 from socket_client import SocketClient
 from config_manager import ConfigManager
 import sys
+import traceback
 
 class PythonFileTransfer:
     
@@ -30,7 +31,7 @@ def main():
         sock.connect(config['destinationhost'],config['destinationport'])
         sock.transfer(data_to_send)
     except Exception as e:
-        print(e)
+        traceback.print_exc()
     finally:
         sock.close()
 

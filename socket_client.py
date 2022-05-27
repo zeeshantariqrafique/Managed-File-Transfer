@@ -5,6 +5,8 @@
 #          socketcli.connect("www.google.com",80)
 
 import socket
+import traceback
+
 class SocketClient:
     connected = False
     def __init__(self):
@@ -34,7 +36,7 @@ class SocketClient:
             try:
                 self.socketClient.send(data)
             except socket.error as err:
-                print(f"Error : {err}")
+                traceback.print_exc()
 
     def close(self):
         '''closes the tcp socket with the remote host'''

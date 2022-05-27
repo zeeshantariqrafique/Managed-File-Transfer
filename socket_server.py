@@ -2,6 +2,7 @@
 
 from array import array
 import socketserver
+import traceback
 
 class socketServer(socketserver.BaseRequestHandler):
     """
@@ -28,9 +29,9 @@ class socketServer(socketserver.BaseRequestHandler):
 
             self.request.sendall(self.data.upper())
         except ValueError as err:
-            print("Value Error while handling request: {}".format(err))
+            traceback.print_exc()
         except Exception as e:
-            print("Error while handling {}".format(e))
+            traceback.print_exc()
 
     
     def createFile(self,file_full_name,file_data_in_bytes):
@@ -41,7 +42,7 @@ class socketServer(socketserver.BaseRequestHandler):
             print(f'Successfully wrote to destination path {file_full_name}')
             return True
         except Exception as e:
-            print(e)
+            traceback.print_exc()
             return False
         finally:
             f.close()
