@@ -3,9 +3,26 @@ from socket_client import SocketClient
 from config_manager import ConfigManager
 import sys
 import traceback
-
+import zlib
 
 class PythonFileTransfer:
+
+    def compress_file(self,file):
+        '''compress the file passed to the function to gz format '''
+        try:
+            print(f'Trying to compress file ==> {file}')
+            with open(file,'rb') as f:
+                data = f.read()
+            compressed_data=zlib.compress(data,9)
+            compressed_file_name = str(file.split('.')[0]) + ".gz"
+            print(f"Compressed file name ==> {compressed_file_name}")
+            with open(compressed_file_name,'wb') as of:
+                of.write(compressed_data)
+            print("File successfully compressed")
+            return compressed_file_name
+        except Exception as e:
+            raise e
+
 
     def create_transfer_command(
             self,
