@@ -14,7 +14,7 @@ class PythonFileTransfer:
             with open(file,'rb') as f:
                 data = f.read()
             compressed_data=zlib.compress(data,9)
-            compressed_file_name = str(file.split('.')[0]) + ".gz"
+            compressed_file_name = str(file) + ".gz"
             print(f"Compressed file name ==> {compressed_file_name}")
             with open(compressed_file_name,'wb') as of:
                 of.write(compressed_data)
@@ -23,6 +23,12 @@ class PythonFileTransfer:
         except Exception as e:
             raise e
 
+
+    def decompress_file(self,file):
+        '''Decompress the file name passed as parameter to this function'''
+        with open(file,'rb') as f:
+            data = zlib.decompress(f)
+        print(data)
 
     def create_transfer_command(
             self,

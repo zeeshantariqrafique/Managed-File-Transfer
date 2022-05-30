@@ -6,7 +6,7 @@ class TestPythonFileTransfer(unittest.TestCase):
     def setUp(self) -> None:
         self.file_to_be_compressed = 'test.txt'
         self.test_file = open(self.file_to_be_compressed,'w+')
-        self.expected_compressed_file_name = 'test.gz'
+        self.expected_compressed_file_name = 'test.txt.gz'
 
     def test_compress_file(self):
         pyft = PythonFileTransfer()
@@ -14,6 +14,10 @@ class TestPythonFileTransfer(unittest.TestCase):
             self.test_file.write(f'This is line number : {line_number}')
         compressed_file_name = pyft.compress_file(self.file_to_be_compressed)
         self.assertEqual(compressed_file_name,self.expected_compressed_file_name)
+
+    #def test_decompress_file(self):
+    #    pyft = PythonFileTransfer()
+    #    decompressed_file_name = pyft.decompress_file(self.test_file)
 
     def tearDown(self) -> None:
         self.test_file.close()
