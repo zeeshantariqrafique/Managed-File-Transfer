@@ -15,7 +15,7 @@ class socketServer(socketserver.BaseRequestHandler):
     """
     BUFFER_SIZE = 1024
 
-    def handle(self):
+    def handle(self) -> None:
         try:
             self.data = self.request.recv(self.BUFFER_SIZE).strip()
             print(
@@ -36,7 +36,7 @@ class socketServer(socketserver.BaseRequestHandler):
         except Exception:
             traceback.print_exc()
 
-    def create_file(self, file_full_name, file_data_in_bytes):
+    def create_file(self, file_full_name: str, file_data_in_bytes: bytes) -> bool:
         '''This function creates the file on the path recived by the socket server'''
         try:
             f = open(file_full_name, 'w+')

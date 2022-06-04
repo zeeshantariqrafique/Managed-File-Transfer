@@ -8,7 +8,7 @@ class TestPythonFileTransfer(unittest.TestCase):
         self.test_file = open(self.file_to_be_compressed,'w+')
         self.expected_compressed_file_name = 'test.txt.gz'
 
-    def test_compress_file(self):
+    def test_compress_file(self) -> None:
         pyft = PythonFileTransfer()
         for line_number in range(10000):
             self.test_file.write(f'This is line number : {line_number}')

@@ -7,7 +7,7 @@ import zlib
 
 class PythonFileTransfer:
 
-    def compress_file(self,file):
+    def compress_file(self,file: str) -> str:
         '''compress the file passed to the function to gz format '''
         try:
             print(f'Trying to compress file ==> {file}')
@@ -24,21 +24,18 @@ class PythonFileTransfer:
             raise e
 
 
-    def decompress_file(self,file):
+    def decompress_file(self,file: str) -> str:
         '''Decompress the file name passed as parameter to this function'''
         with open(file,'rb') as f:
             data = zlib.decompress(f)
         print(data)
 
-    def create_transfer_command(
-            self,
-            destinationFullyQualifiedFileName,
-            fileData):
+    def create_transfer_command(self,dest_full_file_name: str,file_data: str) -> bytearray:
         '''creates a single socket command including metadata
         and actual file data to be transferred to destination
         remote host in bytes over tcp sockets'''
 
-        cmd = "FILE_KEY|" + destinationFullyQualifiedFileName + "|" + fileData
+        cmd = "FILE_KEY|" + dest_full_file_name + "|" + file_data
         return bytearray(cmd, 'utf8')
 
 

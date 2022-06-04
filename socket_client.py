@@ -20,7 +20,7 @@ class SocketClient:
         except socket.error as err:
             print("creation of socket failed due to : {}".format(err))
 
-    def connect(self, host, port):
+    def connect(self, host: str, port: int) -> bool:
         '''connect using tcp socket to the given host and port'''
         try:
             self.socketClient.connect((host, port))
@@ -33,7 +33,7 @@ class SocketClient:
                     host, port, err))
             return False
 
-    def transfer(self, data):
+    def transfer(self, data: bytearray) -> None:
         '''Sends the byte array (data) over socket to connected server'''
         if not self.connected:
             print("Not Conncted to any host")

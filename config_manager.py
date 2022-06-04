@@ -9,7 +9,7 @@ import yaml
 
 
 class ConfigManager:
-    def get_config(self, file_path):
+    def get_config(self, file_path: str) -> dict:
         '''
         file_path : The fully qualified config file path to be read
         Read the given file_path and return a key-value dictionary with all
