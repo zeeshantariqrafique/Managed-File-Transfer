@@ -3,9 +3,10 @@
 from array import array
 import socketserver
 import traceback
+import os
 
 
-class socketServer(socketserver.BaseRequestHandler):
+class SocketServer(socketserver.BaseRequestHandler):
     """
     The RequestHandler class for socket server.
 
@@ -21,12 +22,13 @@ class socketServer(socketserver.BaseRequestHandler):
             print(
                 f'Recieved request from IP address {self.client_address[0]} ')
             # decode() was required to make b'xyz -> xyz
-            recv_str = str(self.data.decode('utf-8'))
+            recv_str = self.data.decode('utf-8')
             # If the first 8 chars are "FILE_KEY" then this is a valid request
             request_array = recv_str.split('|')
             if request_array[0] == "FILE_KEY":
                 # Only pass destination path | file data to create_file function
-                self.create_file(request_array[1], request_array[2])
+                self.create_file(request_array[1],request_array[2],request_array[3])
+                pass
             else:
                 raise ValueError('Not supported request')
 
@@ -36,27 +38,16 @@ class socketServer(socketserver.BaseRequestHandler):
         except Exception:
             traceback.print_exc()
 
-    def create_file(self, file_full_name: str, file_data_in_bytes: bytes) -> bool:
-        '''This function creates the file on the path recived by the socket server'''
-        try:
-            f = open(file_full_name, 'w+')
-            f.write(file_data_in_bytes)
-            print(f'Successfully wrote to destination path {file_full_name}')
-            return True
-        except Exception:
-            traceback.print_exc()
-            return False
-        finally:
-            f.close()
-
+    
+    def serve(self,host: str,port: int) -> None:
+        print('Create the server, binding to localhost on port 9999')
+        server = socketserver.TCPServer((host, port), SocketServer)
+        server.serve_forever()
 
 def main():
     # TODO : Read port from config
     HOST, PORT = "localhost", 9999
-    print('Create the server, binding to localhost on port 9999')
-    server = socketserver.TCPServer((HOST, PORT), socketServer)
-    server.serve_forever()
-
+    SocketServer().serve(HOST,PORT)
 
 if __name__ == "__main__":
     main()

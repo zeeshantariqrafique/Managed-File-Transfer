@@ -23,7 +23,7 @@ class SocketClient:
     def connect(self, host: str, port: int) -> bool:
         '''connect using tcp socket to the given host and port'''
         try:
-            self.socketClient.connect((host, port))
+            self.socketClient.connect((str(host), int(port)))
             self.connected = True
             print("Connected to {} through port {} ".format(host, port))
             return True

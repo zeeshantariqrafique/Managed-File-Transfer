@@ -1,9 +1,12 @@
 import os
 from socket_client import SocketClient
+from socket_server import SocketServer
 from config_manager import ConfigManager
 import sys
 import traceback
+from threading import Thread
 import zlib
+
 
 class PythonFileTransfer:
 
@@ -24,46 +27,39 @@ class PythonFileTransfer:
             raise e
 
 
-    def decompress_file(self,file: str) -> str:
+    def decompress_file(self,src_file: str, dest_file: str) -> None:
         '''Decompress the file name passed as parameter to this function'''
-        with open(file,'rb') as f:
-            data = zlib.decompress(f)
-        print(data)
+        try:
+            with open(src_file,'rb') as f:
+                data = zlib.decompress(f)
+            with open(dest_file,'wb') as f:
+                f.write(bytes(data))
+        except Exception as e:
+            raise e
 
-    def create_transfer_command(self,dest_full_file_name: str,file_data: str) -> bytearray:
+    def create_file(self, file_name: str,file_path: str, file_data_in_bytes: bytes) -> bool:
+        '''This function creates the file on the path recived by the socket server'''
+        try:
+            compressed_file_name = os.path.join(file_path,file_name+'.gz')
+            original_file_name = os.path.join(file_path,file_name)
+            print(type(file_data_in_bytes))
+            print(file_data_in_bytes)
+            f = open(compressed_file_name, 'wb+')
+            f.write(file_data_in_bytes)
+            pyft = PythonFileTransfer()
+            pyft.decompress_file(compressed_file_name,original_file_name)
+            print(f'Successfully wrote to destination path {original_file_name}')
+            return True
+        except Exception:
+            traceback.print_exc()
+            return False
+        finally:
+            f.close()
+
+    def create_transfer_command(self,src_file_name: str,dest_file_path: str,file_data: str) -> bytearray:
         '''creates a single socket command including metadata
         and actual file data to be transferred to destination
         remote host in bytes over tcp sockets'''
 
-        cmd = "FILE_KEY|" + dest_full_file_name + "|" + file_data
+        cmd = f'''FILE_KEY|{src_file_name}|{dest_file_path}|{file_data}'''
         return bytearray(cmd, 'utf8')
-
-
-def main():
-    ''' main business function to read config (transfer.yml) and
-        send the file to remote host using tcp socket'''
-
-    try:
-        config_file_path = sys.argv[1]
-        python_file_transfer = PythonFileTransfer()
-        sock = SocketClient()
-        config = ConfigManager().get_config(config_file_path)
-        src_filename = os.path.join(
-            config['sourcefilepath'],
-            config['sourcefilename'])
-        dest_filename = os.path.join(
-            config['destinationfolder'],
-            config['sourcefilename'])
-        srcfile = open(src_filename, encoding='utf-8', mode="r")
-        data_to_send = python_file_transfer.create_transfer_command(
-            dest_filename, srcfile.read())
-        sock.connect(config['destinationhost'], config['destinationport'])
-        sock.transfer(data_to_send)
-    except Exception as e:
-        traceback.print_exc()
-    finally:
-        sock.close()
-
-
-if __name__ == "__main__":
-    main()

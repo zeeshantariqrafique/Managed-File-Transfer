@@ -15,9 +15,14 @@ class TestPythonFileTransfer(unittest.TestCase):
         compressed_file_name = pyft.compress_file(self.file_to_be_compressed)
         self.assertEqual(compressed_file_name,self.expected_compressed_file_name)
 
-    #def test_decompress_file(self):
-    #    pyft = PythonFileTransfer()
-    #    decompressed_file_name = pyft.decompress_file(self.test_file)
+    def test_decompress_file(self):
+        pyft = PythonFileTransfer()
+        test_str = 'This is a test string'
+        self.test_file.write(test_str)
+        compressed_file_name = pyft.compress_file(self.test_file)
+        decompressed_file_name = pyft.decompress_file(compressed_file_name,self.test_file)
+        print(f'Decompressed file name is {decompressed_file_name}')
+        
 
     def tearDown(self) -> None:
         self.test_file.close()

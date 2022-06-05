@@ -2,10 +2,10 @@ socketserver:
   listenport: 9999
 
 transfer:
-  destinationhost: localhost
-  destinationport: 9999
-  destinationfolder: /Users/zeeshanrafique/dest
+  destinationhost: "localhost"
+  destinationport: "9999"
+  destinationfolder: "/Users/zeeshanrafique/dest"
   sourcefilename: "my_lovely_data_file.txt"
-  sourcefilepath: /Users/zeeshanrafique/source
+  sourcefilepath: "/Users/zeeshanrafique/source"
   realtimeflag: "Y"
 

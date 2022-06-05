@@ -17,5 +17,6 @@ class ConfigManager:
         '''
         with open(file_path, encoding='utf-8') as file:
             data = yaml.full_load(file)
-        config_dict = {**data['socketserver'], **data['transfer']}
+        config_dict = {**data['socketserver'], **data['transfer']} 
+        config_dict = { str(k).strip() : str(v).strip() for k ,v in config_dict.items() }
         return dict(config_dict.items())
