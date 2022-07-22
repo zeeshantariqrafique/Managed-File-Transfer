@@ -1,16 +1,16 @@
 import os
-from socket_client import SocketClient
-from socket_server import SocketServer
-from config_manager import ConfigManager
 import sys
 import traceback
+from inspect import currentframe
 from threading import Thread
 import zlib
 
-
 class PythonFileTransfer:
 
-    def compress_file(self,file: str) -> str:
+    def compress_file(
+        self,
+        file: str
+        ) -> str:
         '''compress the file passed to the function to gz format '''
         try:
             print(f'Trying to compress file ==> {file}')
@@ -27,7 +27,11 @@ class PythonFileTransfer:
             raise e
 
 
-    def decompress_file(self,src_file: str, dest_file: str) -> None:
+    def decompress_file(
+        self,
+        src_file: str,
+        dest_file: str
+        ) -> None:
         '''Decompress the file name passed as parameter to this function'''
         try:
             with open(src_file,'rb') as f:
@@ -37,7 +41,12 @@ class PythonFileTransfer:
         except Exception as e:
             raise e
 
-    def create_file(self, file_name: str,file_path: str, file_data_in_bytes: bytes) -> bool:
+    def create_file(
+        self,
+        file_name: str,
+        file_path: str,
+        file_data_in_bytes: bytes
+        ) -> bool:
         '''This function creates the file on the path recived by the socket server'''
         try:
             compressed_file_name = os.path.join(file_path,file_name+'.gz')
@@ -56,10 +65,18 @@ class PythonFileTransfer:
         finally:
             f.close()
 
-    def create_transfer_command(self,src_file_name: str,dest_file_path: str,file_data: str) -> bytearray:
+    def create_transfer_command(
+        self,
+        src_file_name: str,
+        dest_file_path: str,
+        file_data: str
+        ) -> bytearray:
         '''creates a single socket command including metadata
         and actual file data to be transferred to destination
         remote host in bytes over tcp sockets'''
 
         cmd = f'''FILE_KEY|{src_file_name}|{dest_file_path}|{file_data}'''
         return bytearray(cmd, 'utf8')
+    
+    def print_log(value : str)-> None:
+        print(f'ManagedFileTransfer : {currentframe().f_back.f_lineno} => {value}')

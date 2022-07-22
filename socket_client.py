@@ -6,8 +6,8 @@
 
 import socket
 import traceback
-
-
+from core_file_transfer import PythonFileTransfer
+ 
 class SocketClient:
     connected = False
 
@@ -16,27 +16,34 @@ class SocketClient:
         try:
             self.socketClient = socket.socket(
                 socket.AF_INET, socket.SOCK_STREAM)
-            print("Socket client instance created ")
+            PythonFileTransfer.print_log("Socket client instance created ")
         except socket.error as err:
-            print("creation of socket failed due to : {}".format(err))
+            PythonFileTransfer.print_log("creation of socket failed due to : {}".format(err))
 
-    def connect(self, host: str, port: int) -> bool:
+    def connect(
+        self,
+        host: str,
+        port: int
+        ) -> bool:
         '''connect using tcp socket to the given host and port'''
         try:
             self.socketClient.connect((str(host), int(port)))
             self.connected = True
-            print("Connected to {} through port {} ".format(host, port))
+            PythonFileTransfer.print_log("Connected to {} through port {} ".format(host, port))
             return True
         except socket.error as err:
-            print(
+            PythonFileTransfer.print_log(
                 "Error while connecting to host {} and port {} with : {}".format(
                     host, port, err))
             return False
 
-    def transfer(self, data: bytearray) -> None:
+    def transfer(
+        self,
+        data: bytearray
+        ) -> None:
         '''Sends the byte array (data) over socket to connected server'''
         if not self.connected:
-            print("Not Conncted to any host")
+            PythonFileTransfer.print_log("Not Conncted to any host")
         else:
             try:
                 self.socketClient.send(data)

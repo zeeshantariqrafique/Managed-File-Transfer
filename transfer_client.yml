@@ -1,5 +1,5 @@
 socketserver:
-  controlport: 9999
+  controlport: 8888
   dataport: 9000
 
 transfer:
