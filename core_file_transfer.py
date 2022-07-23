@@ -35,7 +35,8 @@ class PythonFileTransfer:
         '''Decompress the file name passed as parameter to this function'''
         try:
             with open(src_file,'rb') as f:
-                data = zlib.decompress(f)
+                data_in_bytes = f.read()
+                data = zlib.decompress(data_in_bytes)
             with open(dest_file,'wb') as f:
                 f.write(bytes(data))
         except Exception as e:
