@@ -1,7 +1,7 @@
 import os
 import sys
 import traceback
-from inspect import currentframe
+from inspect import currentframe , stack , getmodule
 from threading import Thread
 import zlib
 
@@ -79,4 +79,6 @@ class PythonFileTransfer:
         return bytearray(cmd, 'utf8')
     
     def print_log(value : str)-> None:
-        print(f'ManagedFileTransfer : {currentframe().f_back.f_lineno} => {value}')
+        function = stack()[1][3]
+        filename = os.path.splitext(os.path.basename(stack()[1].filename ))[0]
+        print(f'{filename}::{function}::{currentframe().f_back.f_lineno} => {value}')

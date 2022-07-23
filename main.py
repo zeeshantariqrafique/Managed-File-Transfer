@@ -101,9 +101,6 @@ def data(data_in_bytes: bytes)->None:
     PythonFileTransfer.print_log(f'Wrote {dest_file}')
 
     
-
-
-
 def complete(equest_array: list)-> None:
     pass
 

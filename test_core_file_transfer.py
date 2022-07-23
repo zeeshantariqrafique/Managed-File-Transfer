@@ -19,7 +19,7 @@ class TestPythonFileTransfer(unittest.TestCase):
         pyft = PythonFileTransfer()
         test_str = 'This is a test string'
         self.test_file.write(test_str)
-        compressed_file_name = pyft.compress_file(self.test_file)
+        compressed_file_name = pyft.compress_file(self.file_to_be_compressed)
         decompressed_file_name = pyft.decompress_file(compressed_file_name,self.test_file)
         print(f'Decompressed file name is {decompressed_file_name}')
 
