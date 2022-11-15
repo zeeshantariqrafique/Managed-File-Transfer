@@ -6,7 +6,7 @@ import traceback
 from config_manager import ConfigManager
 from core_file_transfer import PythonFileTransfer
 from socket_client import SocketClient
-from socket_server import SocketServer , serve
+from socket_server import serve , close
 import random
 
 job_id = None
@@ -15,26 +15,32 @@ file_path = None
 
 
 def send(request_array : list)-> None:
-    jobid = request_array[1]
-    src_file = request_array[2]
-    data_port = request_array[3]
-    dest_ip = request_array[4]
-    PythonFileTransfer.print_log(f'''In Send request 
-            job_id = {job_id}
-            src_file = {src_file} 
-            dest_ip = {dest_ip}
-            data_port = {data_port}''')
-    #Check if src file xists
-    if not os.path.exists(src_file):
-        raise FileNotFoundError(f'Source  => {src_file} not found')
+    try:
+        jobid = request_array[1]
+        src_file = request_array[2]
+        data_port = request_array[3]
+        dest_ip = request_array[4]
+        PythonFileTransfer.print_log(f'''In Send request 
+                job_id = {job_id}
+                src_file = {src_file} 
+                dest_ip = {dest_ip}
+                data_port = {data_port}''')
+        #Check if src file xists
+        if not os.path.exists(src_file):
+            raise FileNotFoundError(f'Source  => {src_file} not found')
     
-    sock_client = SocketClient()
-    sock_client.connect(dest_ip,int(data_port))
-    #read src file 
-    f = open(src_file,mode='rb')
-    data_in_bytes = f.read()
-    sock_client.transfer(bytearray(data_in_bytes))
-    PythonFileTransfer.print_log(f'From Send Function , Sent : {str(data_in_bytes)}')
+        sock_client = SocketClient()
+        sock_client.connect(dest_ip,int(data_port))
+        #read src file 
+        f = open(src_file,mode='rb')
+        data_in_bytes = f.read()
+        sock_client.transfer(bytearray(data_in_bytes))
+        PythonFileTransfer.print_log(f'From Send Function , Sent : {str(data_in_bytes)}')
+    except Exception as e:
+        raise e 
+    finally:
+        sock_client.close()
+
 
 def receive(request_array : list)->None:
     try:
@@ -79,8 +85,9 @@ def receive(request_array : list)->None:
 
     except FileNotFoundError as fnf:
         raise fnf
-    except Exception:
+    except Exception as e:
         traceback.print_exc()
+        raise e
     finally:
         sock_client.close()
 
@@ -99,7 +106,9 @@ def data(data_in_bytes: bytes)->None:
     f.write(data_in_bytes)
     f.close()
     PythonFileTransfer.print_log(f'Wrote {dest_file}')
-
+    #close data port
+    PythonFileTransfer.print_log('Attempting to close socket')
+    close()
     
 def complete(equest_array: list)-> None:
     pass

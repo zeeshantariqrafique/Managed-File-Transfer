@@ -1,10 +1,12 @@
 # Author : Zeeshan Tariq Rafique
 
 from array import array
+from distutils.command.config import config
 import socketserver
 import traceback
 from config_manager import ConfigManager
 from core_file_transfer import PythonFileTransfer
+data_port_server_obj = None
 class SocketServer(socketserver.BaseRequestHandler):
     """
     The RequestHandler class for socket server.
@@ -35,6 +37,16 @@ class SocketServer(socketserver.BaseRequestHandler):
 
     
 def serve(host: str,port: int) -> None:
+    global data_port_server_obj
     PythonFileTransfer.print_log(f'Create the server, binding to {host} on port {str(port)}')
     server = socketserver.TCPServer((host, port), SocketServer)
+    if port == int(ConfigManager.get_instance().get_config()['dataport']):
+        data_port_server_obj = server
     server.serve_forever()
+
+def close():
+    PythonFileTransfer.print_log('Attempting shut down of data socket')
+    global data_port_server_obj
+    data_port_server_obj.server_close()
+    data_port_server_obj.shutdown()
+    PythonFileTransfer.print_log('Data Socket shut down success')
